@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set, push, onValue } from 'firebase/database';
 import { ROOMS_DB_PATH } from './constants';
+import { convertToArray } from './utils';
 
 const firebaseConfig = {
   databaseURL:
@@ -9,14 +10,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export function addMessage({ roomCode, name, message }) {
+export function addMessage({ roomCode, name, text }) {
   const db = getDatabase();
 
   const roomRef = ref(db, `${ROOMS_DB_PATH}/${roomCode}`);
   const newMessageRef = push(roomRef);
   set(newMessageRef, {
     name,
-    message,
+    text,
   });
 }
 
@@ -25,7 +26,6 @@ export function subscribeToMessages(roomCode, callback) {
   const roomRef = ref(db, `${ROOMS_DB_PATH}/${roomCode}`);
   onValue(roomRef, (snapshot) => {
     const data = snapshot.val();
-    console.log(typeof callback);
-    callback(data);
+    callback(convertToArray(data));
   });
 }

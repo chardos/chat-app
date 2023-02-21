@@ -5,33 +5,35 @@ import { addMessage, subscribeToMessages } from '../firebase';
 const Room = () => {
   const { roomCode } = useParams();
   const name = localStorage.getItem('username');
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [text, setText] = useState('');
+  const [messageList, setMessageList] = useState([]);
 
   useEffect(() => {
-    console.log('subscribings');
     subscribeToMessages(roomCode, (data) => {
-      console.log('data', data);
-      // setMessages();
+      setMessageList(data);
     });
   }, [roomCode]);
 
-  const onMessageChange = (e) => {
-    setMessage(e.target.value);
+  const onTextChange = (e) => {
+    setText(e.target.value);
   };
 
   const onSendMessage = () => {
+    setText('');
     addMessage({
       roomCode,
       name,
-      message,
+      text,
     });
   };
 
   return (
     <div>
       <h1>This is room {roomCode}</h1>
-      <input id="message" onChange={onMessageChange} value={message} />
+      {messageList.map((message) => (
+        <div>{message.text}</div>
+      ))}
+      <input id="text" onChange={onTextChange} value={text} />
       <button onClick={onSendMessage}>Send</button>
     </div>
   );
