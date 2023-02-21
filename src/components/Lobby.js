@@ -1,9 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { generateRoomCode } from '../utils';
 
 const Lobby = () => {
   const [name, setName] = useState(localStorage.getItem('username'));
   const [roomCode, setRoomCode] = useState();
+  const navigate = useNavigate();
 
   const onNameChange = (e) => {
     const name = e.target.value;
@@ -14,10 +16,17 @@ const Lobby = () => {
   const onRoomCodeChange = (e) => {
     setRoomCode(e.target.value);
   };
+  const onCreateRoom = (e) => {
+    const roomCode = generateRoomCode();
+    navigate(`/${roomCode}`);
+  };
 
   return (
     <div>
       <h1>Lobby</h1>
+      <button onClick={onCreateRoom}>Create room</button>
+
+      <br />
       <label htmlFor="name">Name</label>
       <input id="name" onChange={onNameChange} value={name} />
       <br />
