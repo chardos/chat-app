@@ -1,14 +1,14 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Lobby from "./components/Lobby";
-import Room from "./components/Room";
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Lobby from './components/Lobby';
+import Room from './components/Room';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Lobby />,
   },
   {
-    path: "/:roomId",
+    path: '/:roomCode',
     element: <Room />,
   },
 ]);

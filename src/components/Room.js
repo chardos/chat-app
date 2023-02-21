@@ -1,15 +1,29 @@
+import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { writeUserData } from '../firebase';
+import { addMessage } from '../firebase';
 
-const Room = (props) => {
-  const { roomId } = useParams();
+const Room = () => {
+  const { roomCode } = useParams();
+  const name = localStorage.getItem('username');
+  const [message, setMessage] = useState('');
 
-  console.log('roomId', roomId);
+  const onMessageChange = (e) => {
+    setMessage(e.target.value);
+  };
+
+  const onSendMessage = () => {
+    addMessage({
+      roomCode,
+      name,
+      message,
+    });
+  };
+
   return (
     <div>
-      <h1>This is room {roomId}</h1>
-      <input />
-      <button onClick={writeUserData}>Submit</button>
+      <h1>This is room {roomCode}</h1>
+      <input id="message" onChange={onMessageChange} value={message} />
+      <button onClick={onSendMessage}>Send</button>
     </div>
   );
 };

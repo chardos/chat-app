@@ -12,9 +12,10 @@ const app = initializeApp(firebaseConfig);
 // Initialize Realtime Database and get a reference to the service
 export const database = getDatabase(app);
 
-export function writeUserData() {
+export function addMessage({ roomCode, name, message }) {
   const db = getDatabase();
-  set(ref(db, 'users/' + '123'), {
-    foo: 'bar',
+  set(ref(db, `rooms/${roomCode}`), {
+    name,
+    message,
   });
 }
