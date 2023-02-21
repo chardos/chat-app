@@ -1,11 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { addMessage } from '../firebase';
+import { addMessage, subscribeToMessages } from '../firebase';
 
 const Room = () => {
   const { roomCode } = useParams();
   const name = localStorage.getItem('username');
   const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    console.log('subscribings');
+    subscribeToMessages(roomCode, (data) => {
+      console.log('data', data);
+      // setMessages();
+    });
+  }, [roomCode]);
 
   const onMessageChange = (e) => {
     setMessage(e.target.value);

@@ -15,8 +15,6 @@ const Lobby = () => {
     setRoomCode(e.target.value);
   };
 
-  const goToRoom = () => {};
-
   return (
     <div>
       <h1>Lobby</h1>
