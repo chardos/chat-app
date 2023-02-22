@@ -7,7 +7,6 @@ import { Button } from './Button.styled';
 import { ChatBubble } from './ChatBubble.styled';
 import Input from './Input';
 import * as Styled from './Room.styled';
-import { Stack } from './Stack.styled';
 
 const Room = () => {
   const { roomCode } = useParams();
@@ -41,10 +40,10 @@ const Room = () => {
 
       <Styled.MessageList>
         {messageList.map((message) => (
-          <div>
+          <Styled.Message invert={name === message.name}>
             <Avatar>{message.name[0].toUpperCase()}</Avatar>
             <ChatBubble key={message.id}>{message.text}</ChatBubble>
-          </div>
+          </Styled.Message>
         ))}
       </Styled.MessageList>
 

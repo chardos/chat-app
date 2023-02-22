@@ -9,9 +9,15 @@ export const RoomWrapper = styled.div`
 `;
 
 export const Title = styled.h1`
+  font-size: 20px;
   padding: ${spacing.l}px;
   margin: 0;
   border-bottom: 1px solid ${({ theme }) => theme.dark};
+`;
+
+export const Message = styled.div`
+  display: flex;
+  flex-direction: ${({ invert }) => (invert ? 'row-reverse' : 'row')};
 `;
 
 export const InputStack = styled(Stack)`
@@ -19,6 +25,9 @@ export const InputStack = styled(Stack)`
 `;
 export const MessageList = styled.div`
   padding: ${spacing.l}px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   flex-grow: 1;
 `;
 
