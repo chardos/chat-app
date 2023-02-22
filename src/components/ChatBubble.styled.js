@@ -6,6 +6,6 @@ export const ChatBubble = styled.span`
   color: white;
   padding: ${spacing.xs}px ${spacing.s}px;
   background-color: ${({ theme }) => theme.dark};
-  border-radius: 100px;
+  border-radius: 16px;
   margin-top: ${spacing.xxs}px;
 `;

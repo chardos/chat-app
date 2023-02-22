@@ -15,7 +15,6 @@ const Room = () => {
   const [messageList, setMessageList] = useState([]);
   const messageListWrapperRef = useRef(null);
   const navigate = useNavigate();
-  console.log('messageList', messageList);
   const scrollBottom = () => {
     const el = messageListWrapperRef.current;
     el.scrollTo({
@@ -59,8 +58,6 @@ const Room = () => {
 
   const roomGroups = createMessageGroups(messageList);
 
-  console.log('roomGroups', roomGroups);
-
   return (
     <Styled.RoomWrapper>
       <Styled.Title>Room: {roomCode}</Styled.Title>
@@ -79,10 +76,10 @@ const Room = () => {
                 </Avatar>
                 <Styled.Messages invert={isInverted}>
                   {roomGroup.messages.map((message) => (
-                    <>
-                      <ChatBubble key={message.id}>{message.text}</ChatBubble>
+                    <div key={message.id}>
+                      <ChatBubble>{message.text}</ChatBubble>
                       <br />
-                    </>
+                    </div>
                   ))}
                 </Styled.Messages>
               </Styled.MessageGroup>

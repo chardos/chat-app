@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { spacing } from '../constants';
-import { Stack } from './Stack.styled';
 
 const TITLE_HEIGHT = 90;
 const INPUT_BAR_HEIGHT = 110;
@@ -35,12 +34,13 @@ export const MessageListWrapper = styled.div`
 export const MessageList = styled.div`
   padding: ${spacing.l}px;
   display: flex;
-  height: 100%;
+  min-height: 100%;
   flex-direction: column;
   justify-content: flex-end;
 `;
 
 export const MessageGroup = styled.div`
+  margin-top: ${spacing.l}px;
   display: flex;
   flex-direction: ${({ invert }) => (invert ? 'row-reverse' : 'row')};
   align-items: flex-end;

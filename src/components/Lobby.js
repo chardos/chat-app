@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { spacing } from '../constants';
-import { generateRoomCode } from '../utils';
+import { generateRoomCode, validateName, validateRoomCode } from '../utils';
 import { Button } from './Button.styled';
 import Input from './Input';
 import * as Styled from './Lobby.styled';
 import { Stack } from './Stack.styled';
 
 const Lobby = () => {
-  const [name, setName] = useState(localStorage.getItem('username'));
-  const [roomCode, setRoomCode] = useState();
+  const [name, setName] = useState(localStorage.getItem('username') || '');
+  const [roomCode, setRoomCode] = useState('');
+  const [error, setError] = useState();
   const navigate = useNavigate();
 
   const onNameChange = (e) => {
@@ -23,13 +24,24 @@ const Lobby = () => {
   };
 
   const onCreateRoom = (e) => {
+    e.preventDefault();
     const newRoomCode = generateRoomCode();
-    navigate(`/${newRoomCode}`);
+    const isValid = validateName();
+
+    if (isValid) {
+      navigate(`/${newRoomCode}`);
+    }
   };
 
   const onVisitRoom = (e) => {
     e.preventDefault();
-    navigate(`/${roomCode}`);
+    const errorMessage = validateName(name) || validateRoomCode(roomCode);
+
+    if (errorMessage) {
+      setError(errorMessage);
+    } else {
+      navigate(`/${roomCode}`);
+    }
   };
 
   return (
@@ -58,6 +70,7 @@ const Lobby = () => {
               </Button>
               <Button onClick={onCreateRoom}>Create room</Button>
             </Stack>
+            {error && <div>{error}</div>}
           </Stack>
         </form>
       </Styled.Panel>

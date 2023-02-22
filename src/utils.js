@@ -10,8 +10,6 @@ export const generateRoomCode = () => {
 };
 
 export const createMessageGroups = (messageList) => {
-  console.log('messageList', messageList);
-
   return messageList.reduce((acc, curr) => {
     const { name, text, id } = curr;
 
@@ -26,4 +24,16 @@ export const createMessageGroups = (messageList) => {
       ];
     }
   }, []);
+};
+
+export const validateName = (name) => {
+  if (!name) {
+    return 'Please provide a name.';
+  }
+};
+
+export const validateRoomCode = (roomCode) => {
+  if (!roomCode) {
+    return 'Please provide a room code.';
+  }
 };

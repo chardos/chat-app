@@ -26,6 +26,11 @@ export function subscribeToMessages(roomCode, callback) {
   const roomRef = ref(db, `${ROOMS_DB_PATH}/${roomCode}`);
   onValue(roomRef, (snapshot) => {
     const data = snapshot.val();
-    callback(convertToArray(data));
+
+    if (data) {
+      callback(convertToArray(data));
+    } else {
+      callback([]);
+    }
   });
 }
