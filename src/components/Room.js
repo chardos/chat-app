@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { spacing } from '../constants';
 import { addMessage, subscribeToMessages } from '../firebase';
 import { Avatar } from './Avatar.styled';
 import { Button } from './Button.styled';
@@ -13,6 +12,20 @@ const Room = () => {
   const name = localStorage.getItem('username');
   const [text, setText] = useState('');
   const [messageList, setMessageList] = useState([]);
+  const messageListWrapperRef = useRef(null);
+
+  const scrollBottom = () => {
+    const el = messageListWrapperRef.current;
+    el.scrollTo({
+      top: el.scrollHeight,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  useEffect(() => {
+    document.fonts.ready.then(scrollBottom);
+  }, [messageList]);
 
   useEffect(() => {
     subscribeToMessages(roomCode, (data) => {
@@ -38,14 +51,16 @@ const Room = () => {
     <Styled.RoomWrapper>
       <Styled.Title>Room: {roomCode}</Styled.Title>
 
-      <Styled.MessageList>
-        {messageList.map((message) => (
-          <Styled.Message invert={name === message.name}>
-            <Avatar>{message.name[0].toUpperCase()}</Avatar>
-            <ChatBubble key={message.id}>{message.text}</ChatBubble>
-          </Styled.Message>
-        ))}
-      </Styled.MessageList>
+      <Styled.MessageListWrapper ref={messageListWrapperRef}>
+        <Styled.MessageList>
+          {messageList.map((message) => (
+            <Styled.Message invert={name === message.name} key={message.id}>
+              <Avatar>{message.name[0].toUpperCase()}</Avatar>
+              <ChatBubble>{message.text}</ChatBubble>
+            </Styled.Message>
+          ))}
+        </Styled.MessageList>
+      </Styled.MessageListWrapper>
 
       <form onSubmit={onSendMessage}>
         <Styled.InputStack horizontal>
