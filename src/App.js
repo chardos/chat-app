@@ -7,7 +7,6 @@ import { getRandomTheme } from './themes';
 
 function App() {
   const [theme] = useState(getRandomTheme());
-  console.log('theme', theme);
 
   return (
     <>

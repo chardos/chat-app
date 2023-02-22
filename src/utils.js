@@ -1,5 +1,5 @@
 export const convertToArray = (firebaseData) =>
-  Object.keys(firebaseData).map((key) => firebaseData[key]);
+  Object.keys(firebaseData).map((key) => ({ ...firebaseData[key], id: key }));
 
 export const generateRoomCode = () => {
   const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';

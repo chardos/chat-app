@@ -28,28 +28,38 @@ const Lobby = () => {
   };
 
   const onVisitRoom = (e) => {
+    e.preventDefault();
     navigate(`/${roomCode}`);
   };
 
   return (
     <Styled.Wrapper>
       <Styled.Panel>
-        <Stack space={spacing.l}>
-          <Styled.Heading>ChitChatr</Styled.Heading>
+        <form>
+          <Stack space={spacing.l}>
+            <Styled.Heading>ChitChatr</Styled.Heading>
 
-          <Input id="name" label="Name" onChange={onNameChange} value={name} />
-          <Input
-            id="roomCode"
-            label="Room Code"
-            onChange={onRoomCodeChange}
-            value={roomCode}
-          />
+            <Input
+              id="name"
+              label="Name"
+              onChange={onNameChange}
+              value={name}
+            />
+            <Input
+              id="roomCode"
+              label="Room Code"
+              onChange={onRoomCodeChange}
+              value={roomCode}
+            />
 
-          <Stack space={spacing.s} horizontal>
-            <Button onClick={onVisitRoom}>Go to room</Button>
-            <Button onClick={onCreateRoom}>Create room</Button>
+            <Stack space={spacing.s} horizontal>
+              <Button type="submit" onClick={onVisitRoom}>
+                Go to room
+              </Button>
+              <Button onClick={onCreateRoom}>Create room</Button>
+            </Stack>
           </Stack>
-        </Stack>
+        </form>
       </Styled.Panel>
     </Styled.Wrapper>
   );

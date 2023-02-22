@@ -11,7 +11,7 @@ export const themes = {
   },
   blue: {
     background: '#7472CC',
-    dark: '#191770',
+    dark: '#0D0B5B',
     light: '#CECDf6',
   },
 };
