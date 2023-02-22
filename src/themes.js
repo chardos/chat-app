@@ -10,7 +10,7 @@ export const themes = {
     light: '#E0FFE2',
   },
   blue: {
-    background: '#7472CC',
+    background: '#8986F4',
     dark: '#0D0B5B',
     light: '#CECDf6',
   },

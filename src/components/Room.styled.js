@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { spacing } from '../constants';
 
-const TITLE_HEIGHT = 90;
+const TITLE_HEIGHT = 80;
 const INPUT_BAR_HEIGHT = 110;
 
 export const RoomWrapper = styled.div`
@@ -10,14 +10,18 @@ export const RoomWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const Title = styled.h1`
+export const Header = styled.div`
   display: flex;
   align-items: center;
-  font-size: 20px;
+  justify-content: space-between;
   padding: 0 ${spacing.l}px;
   height: ${TITLE_HEIGHT}px;
   margin: 0;
   border-bottom: 1px solid ${({ theme }) => theme.dark};
+`;
+
+export const RoomCode = styled.h1`
+  font-size: 20px;
 `;
 
 export const InputStack = styled.div`
@@ -42,6 +46,7 @@ export const MessageList = styled.div`
 export const MessageGroup = styled.div`
   margin-top: ${spacing.l}px;
   display: flex;
+  gap: ${spacing.s}px;
   flex-direction: ${({ invert }) => (invert ? 'row-reverse' : 'row')};
   align-items: flex-end;
 `;

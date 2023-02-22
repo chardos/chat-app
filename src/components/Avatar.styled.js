@@ -3,7 +3,6 @@ import { spacing } from '../constants';
 
 export const Avatar = styled.div`
   display: inline-block;
-  margin-${({ invert }) => (invert ? 'left' : 'right')}: ${spacing.xs}px;
   min-width: 34px;
   height: 34px;
   line-height: 2.9;

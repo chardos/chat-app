@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { spacing } from '../constants';
 import { addMessage, subscribeToMessages } from '../firebase';
 import { createMessageGroups } from '../utils';
 import { Avatar } from './Avatar.styled';
 import { Button } from './Button.styled';
 import { ChatBubble } from './ChatBubble.styled';
 import Input from './Input';
+import { Link } from './Link.styled';
 import * as Styled from './Room.styled';
 
 const Room = () => {
@@ -15,14 +17,6 @@ const Room = () => {
   const [messageList, setMessageList] = useState([]);
   const messageListWrapperRef = useRef(null);
   const navigate = useNavigate();
-  const scrollBottom = () => {
-    const el = messageListWrapperRef.current;
-    el.scrollTo({
-      top: el.scrollHeight,
-      left: 0,
-      behavior: 'smooth',
-    });
-  };
 
   useEffect(() => {
     if (!name) {
@@ -44,7 +38,16 @@ const Room = () => {
     setText(e.target.value);
   };
 
-  const onSendMessage = (e) => {
+  const scrollBottom = () => {
+    const el = messageListWrapperRef.current;
+    el.scrollTo({
+      top: el.scrollHeight,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
+
+  const sendMessage = (e) => {
     e.preventDefault();
     setText('');
     if (text) {
@@ -56,11 +59,18 @@ const Room = () => {
     }
   };
 
+  const leaveRoom = () => {
+    navigate('/');
+  };
+
   const roomGroups = createMessageGroups(messageList);
 
   return (
     <Styled.RoomWrapper>
-      <Styled.Title>Room: {roomCode}</Styled.Title>
+      <Styled.Header>
+        <Styled.RoomCode>Room: {roomCode}</Styled.RoomCode>
+        <Link onClick={leaveRoom}>Leave room</Link>
+      </Styled.Header>
 
       <Styled.MessageListWrapper ref={messageListWrapperRef}>
         <Styled.MessageList>
@@ -74,11 +84,11 @@ const Room = () => {
                 <Avatar invert={isInverted}>
                   {roomGroup.name[0].toUpperCase()}
                 </Avatar>
+
                 <Styled.Messages invert={isInverted}>
                   {roomGroup.messages.map((message) => (
                     <div key={message.id}>
                       <ChatBubble>{message.text}</ChatBubble>
-                      <br />
                     </div>
                   ))}
                 </Styled.Messages>
@@ -88,8 +98,8 @@ const Room = () => {
         </Styled.MessageList>
       </Styled.MessageListWrapper>
 
-      <form onSubmit={onSendMessage}>
-        <Styled.InputStack horizontal>
+      <form onSubmit={sendMessage}>
+        <Styled.InputStack space={spacing.l} horizontal>
           <Styled.TextInputWrapper>
             <Input id="text" onChange={onTextChange} value={text} />
           </Styled.TextInputWrapper>
