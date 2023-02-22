@@ -21,25 +21,33 @@ export const Title = styled.h1`
   border-bottom: 1px solid ${({ theme }) => theme.dark};
 `;
 
-export const Message = styled.div`
-  display: flex;
-  flex-direction: ${({ invert }) => (invert ? 'row-reverse' : 'row')};
-`;
-
 export const InputStack = styled.div`
   display: flex;
   height: ${INPUT_BAR_HEIGHT}px;
   padding: ${spacing.l}px;
 `;
+
 export const MessageListWrapper = styled.div`
   height: calc(100vh - ${TITLE_HEIGHT}px - ${INPUT_BAR_HEIGHT}px);
   overflow: scroll;
 `;
+
 export const MessageList = styled.div`
   padding: ${spacing.l}px;
   display: flex;
+  height: 100%;
   flex-direction: column;
   justify-content: flex-end;
+`;
+
+export const MessageGroup = styled.div`
+  display: flex;
+  flex-direction: ${({ invert }) => (invert ? 'row-reverse' : 'row')};
+  align-items: flex-end;
+`;
+
+export const Messages = styled.div`
+  text-align: ${({ invert }) => (invert ? 'right' : 'left')};
 `;
 
 export const TextInputWrapper = styled.div`

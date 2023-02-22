@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { addMessage, subscribeToMessages } from '../firebase';
+import { createMessageGroups } from '../utils';
 import { Avatar } from './Avatar.styled';
 import { Button } from './Button.styled';
 import { ChatBubble } from './ChatBubble.styled';
@@ -13,7 +14,8 @@ const Room = () => {
   const [text, setText] = useState('');
   const [messageList, setMessageList] = useState([]);
   const messageListWrapperRef = useRef(null);
-
+  const navigate = useNavigate();
+  console.log('messageList', messageList);
   const scrollBottom = () => {
     const el = messageListWrapperRef.current;
     el.scrollTo({
@@ -22,6 +24,12 @@ const Room = () => {
       behavior: 'smooth',
     });
   };
+
+  useEffect(() => {
+    if (!name) {
+      navigate('/');
+    }
+  }, [name]);
 
   useEffect(() => {
     document.fonts.ready.then(scrollBottom);
@@ -40,12 +48,18 @@ const Room = () => {
   const onSendMessage = (e) => {
     e.preventDefault();
     setText('');
-    addMessage({
-      roomCode,
-      name,
-      text,
-    });
+    if (text) {
+      addMessage({
+        roomCode,
+        name,
+        text,
+      });
+    }
   };
+
+  const roomGroups = createMessageGroups(messageList);
+
+  console.log('roomGroups', roomGroups);
 
   return (
     <Styled.RoomWrapper>
@@ -53,12 +67,27 @@ const Room = () => {
 
       <Styled.MessageListWrapper ref={messageListWrapperRef}>
         <Styled.MessageList>
-          {messageList.map((message) => (
-            <Styled.Message invert={name === message.name} key={message.id}>
-              <Avatar>{message.name[0].toUpperCase()}</Avatar>
-              <ChatBubble>{message.text}</ChatBubble>
-            </Styled.Message>
-          ))}
+          {roomGroups.map((roomGroup) => {
+            const isInverted = name === roomGroup.name;
+            return (
+              <Styled.MessageGroup
+                key={roomGroup.messages[0].id}
+                invert={isInverted}
+              >
+                <Avatar invert={isInverted}>
+                  {roomGroup.name[0].toUpperCase()}
+                </Avatar>
+                <Styled.Messages invert={isInverted}>
+                  {roomGroup.messages.map((message) => (
+                    <>
+                      <ChatBubble key={message.id}>{message.text}</ChatBubble>
+                      <br />
+                    </>
+                  ))}
+                </Styled.Messages>
+              </Styled.MessageGroup>
+            );
+          })}
         </Styled.MessageList>
       </Styled.MessageListWrapper>
 
