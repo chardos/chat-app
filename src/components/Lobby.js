@@ -1,6 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { spacing } from '../constants';
 import { generateRoomCode } from '../utils';
+import { Button } from './Button.styled';
+import Input from './Input';
+import * as Styled from './Lobby.styled';
+import { Stack } from './Stack.styled';
 
 const Lobby = () => {
   const [name, setName] = useState(localStorage.getItem('username'));
@@ -14,26 +19,39 @@ const Lobby = () => {
   };
 
   const onRoomCodeChange = (e) => {
-    setRoomCode(e.target.value);
+    setRoomCode(e.target.value.toUpperCase());
   };
+
   const onCreateRoom = (e) => {
-    const roomCode = generateRoomCode();
+    const newRoomCode = generateRoomCode();
+    navigate(`/${newRoomCode}`);
+  };
+
+  const onVisitRoom = (e) => {
     navigate(`/${roomCode}`);
   };
 
   return (
-    <div>
-      <h1>Lobby</h1>
-      <button onClick={onCreateRoom}>Create room</button>
+    <Styled.Wrapper>
+      <Styled.Panel>
+        <Stack space={spacing.l}>
+          <Styled.Heading>ChitChatr</Styled.Heading>
 
-      <br />
-      <label htmlFor="name">Name</label>
-      <input id="name" onChange={onNameChange} value={name} />
-      <br />
-      <label htmlFor="roomCode">Room code</label>
-      <input id="roomCode" onChange={onRoomCodeChange} />
-      <Link to={`/${roomCode}`}>Go to room</Link>
-    </div>
+          <Input id="name" label="Name" onChange={onNameChange} value={name} />
+          <Input
+            id="roomCode"
+            label="Room Code"
+            onChange={onRoomCodeChange}
+            value={roomCode}
+          />
+
+          <Stack space={spacing.s} horizontal>
+            <Button onClick={onVisitRoom}>Go to room</Button>
+            <Button onClick={onCreateRoom}>Create room</Button>
+          </Stack>
+        </Stack>
+      </Styled.Panel>
+    </Styled.Wrapper>
   );
 };
 
