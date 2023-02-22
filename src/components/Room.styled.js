@@ -26,6 +26,7 @@ export const RoomCode = styled.h1`
 
 export const InputStack = styled.div`
   display: flex;
+  gap: ${spacing.m}px;
   height: ${INPUT_BAR_HEIGHT}px;
   padding: ${spacing.l}px;
 `;
@@ -53,9 +54,13 @@ export const MessageGroup = styled.div`
 
 export const Messages = styled.div`
   text-align: ${({ invert }) => (invert ? 'right' : 'left')};
+
+  > div {
+    float: ${({ invert }) => (invert ? 'right' : 'left')};
+    clear: ${({ invert }) => (invert ? 'right' : 'left')};
+  }
 `;
 
 export const TextInputWrapper = styled.div`
-  margin-right: ${spacing.s}px;
   flex-grow: 1;
 `;

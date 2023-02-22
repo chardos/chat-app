@@ -87,9 +87,7 @@ const Room = () => {
 
                 <Styled.Messages invert={isInverted}>
                   {roomGroup.messages.map((message) => (
-                    <div key={message.id}>
-                      <ChatBubble>{message.text}</ChatBubble>
-                    </div>
+                    <ChatBubble invert={isInverted}>{message.text}</ChatBubble>
                   ))}
                 </Styled.Messages>
               </Styled.MessageGroup>
