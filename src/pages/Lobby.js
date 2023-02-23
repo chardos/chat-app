@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { spacing } from '../constants';
 import {
   generateRoomCode,
+  lettersOnly,
   validateName,
   validateRoomCode,
 } from '../utils/utils';
@@ -25,7 +26,7 @@ const Lobby = () => {
   };
 
   const onRoomCodeChange = (e) => {
-    setRoomCode(e.target.value.toUpperCase());
+    setRoomCode(lettersOnly(e.target.value.toUpperCase()));
   };
 
   const onCreateRoom = (e) => {

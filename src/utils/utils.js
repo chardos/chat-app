@@ -55,3 +55,5 @@ export const isTypingListToString = (isTypingList, currentName) => {
     .filter((name) => name !== currentName)
     .join(', ');
 };
+
+export const lettersOnly = (str) => str.replace(/[^A-Z]/g, '');

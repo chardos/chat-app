@@ -1,6 +1,4 @@
-import { createMessageGroups } from './utils';
-
-const MESSAGE_LIST = [
+export const MESSAGE_LIST = [
   {
     name: 'Rich',
     text: 'Hello',
@@ -37,12 +35,3 @@ const MESSAGE_LIST = [
     id: '-NOsuNKc_RVQ23Jsc4gK',
   },
 ];
-
-describe('createMessageGroups', () => {
-  describe('when a list of messages with 3 separate groups', () => {
-    it('should return a list with 3 items', () => {
-      const result = createMessageGroups(MESSAGE_LIST);
-      expect(result.length).toEqual(3);
-    });
-  });
-});
