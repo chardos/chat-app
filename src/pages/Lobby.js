@@ -10,6 +10,7 @@ import { Button } from '../components/Button.styled';
 import Input from '../components/Input';
 import * as Styled from './Lobby.styled';
 import { Stack } from '../components/Stack.styled';
+import { Error } from '../components/Error.styled';
 
 const Lobby = () => {
   const [name, setName] = useState(localStorage.getItem('username') || '');
@@ -76,7 +77,7 @@ const Lobby = () => {
               </Button>
               <Button onClick={onCreateRoom}>Create room</Button>
             </Stack>
-            {error && <div>{error}</div>}
+            {error && <Error>{error}</Error>}
           </Stack>
         </form>
       </Styled.Panel>
