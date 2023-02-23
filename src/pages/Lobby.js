@@ -1,11 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { spacing } from '../constants';
-import { generateRoomCode, validateName, validateRoomCode } from '../utils';
-import { Button } from './Button.styled';
-import Input from './Input';
+import {
+  generateRoomCode,
+  validateName,
+  validateRoomCode,
+} from '../utils/utils';
+import { Button } from '../components/Button.styled';
+import Input from '../components/Input';
 import * as Styled from './Lobby.styled';
-import { Stack } from './Stack.styled';
+import { Stack } from '../components/Stack.styled';
 
 const Lobby = () => {
   const [name, setName] = useState(localStorage.getItem('username') || '');

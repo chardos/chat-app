@@ -1,23 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { spacing } from '../constants';
-import {
-  addIsTyping,
-  addMessage,
-  removeIsTyping,
-  subscribeToRoom,
-} from '../firebase';
+import * as database from '../database';
 import {
   convertIsTypingToArray,
   convertToArray,
   createMessageGroups,
   isTypingListToString,
-} from '../utils';
-import { Avatar } from './Avatar.styled';
-import { Button } from './Button.styled';
-import ChatBubble from './ChatBubble';
-import Input from './Input';
-import { Link } from './Link.styled';
+} from '../utils/utils';
+import { Avatar } from '../components/Avatar.styled';
+import { Button } from '../components/Button.styled';
+import ChatBubble from '../components/ChatBubble';
+import Input from '../components/Input';
+import { Link } from '../components/Link.styled';
 import * as Styled from './Room.styled';
 
 const Room = () => {
@@ -41,7 +36,7 @@ const Room = () => {
   }, [messageList]);
 
   useEffect(() => {
-    subscribeToRoom(roomCode, ({ messages, isTyping }) => {
+    database.subscribeToRoom(roomCode, ({ messages, isTyping }) => {
       setIsTypingList(convertIsTypingToArray(isTyping || []));
       setMessageList(convertToArray(messages));
     });
@@ -52,11 +47,11 @@ const Room = () => {
     const isAlreadyTyping = Boolean(typer);
 
     if (text && !isAlreadyTyping) {
-      addIsTyping({ roomCode, name });
+      database.addIsTyping({ roomCode, name });
     }
 
     if (!text && isAlreadyTyping) {
-      removeIsTyping({ roomCode, id: typer.id });
+      database.removeIsTyping({ roomCode, id: typer.id });
     }
   }, [text]);
 
@@ -77,7 +72,7 @@ const Room = () => {
     e.preventDefault();
     setText('');
     if (text) {
-      addMessage({
+      database.addMessage({
         roomCode,
         name,
         text,
@@ -91,7 +86,6 @@ const Room = () => {
 
   const roomGroups = createMessageGroups(messageList);
   const isTypingString = isTypingListToString(isTypingList, name);
-  console.log('isTypingString', isTypingString);
 
   return (
     <Styled.RoomWrapper>

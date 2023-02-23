@@ -1,6 +1,6 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Lobby from './components/Lobby';
-import Room from './components/Room';
+import { createBrowserRouter } from 'react-router-dom';
+import Lobby from './pages/Lobby';
+import Room from './pages/Room';
 
 export const router = createBrowserRouter([
   {

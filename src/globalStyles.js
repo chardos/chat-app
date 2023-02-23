@@ -14,6 +14,7 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     color: ${(props) => props.theme.dark};
     background-color: ${(props) => props.theme.background};
+    margin: 0;
   }
 `;
 
