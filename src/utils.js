@@ -1,6 +1,14 @@
 export const convertToArray = (firebaseData) =>
   Object.keys(firebaseData).map((key) => ({ ...firebaseData[key], id: key }));
 
+export const convertIsTypingToArray = (firebaseData) => {
+  console.log('firebaseData', firebaseData);
+  return Object.keys(firebaseData).map((key) => ({
+    name: firebaseData[key],
+    id: key,
+  }));
+};
+
 export const generateRoomCode = () => {
   const CHARACTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   return Array(4)
@@ -36,4 +44,14 @@ export const validateRoomCode = (roomCode) => {
   if (!roomCode) {
     return 'Please provide a room code.';
   }
+};
+
+export const isTypingListToString = (isTypingList, currentName) => {
+  if (!isTypingList.length) {
+    return false;
+  }
+  return isTypingList
+    .map((item) => item.name)
+    .filter((name) => name !== currentName)
+    .join(', ');
 };

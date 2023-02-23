@@ -33,7 +33,8 @@ export const InputStack = styled.div`
 
 export const MessageListWrapper = styled.div`
   height: calc(100vh - ${TITLE_HEIGHT}px - ${INPUT_BAR_HEIGHT}px);
-  overflow: scroll;
+  overflow-x: hidden;
+  overflow-y: scroll;
 `;
 
 export const MessageList = styled.div`
@@ -42,6 +43,10 @@ export const MessageList = styled.div`
   min-height: 100%;
   flex-direction: column;
   justify-content: flex-end;
+`;
+
+export const IsTyping = styled.div`
+  padding: 0 ${spacing.l}px;
 `;
 
 export const MessageGroup = styled.div`

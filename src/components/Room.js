@@ -1,11 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { spacing } from '../constants';
-import { addMessage, subscribeToMessages } from '../firebase';
-import { createMessageGroups } from '../utils';
+import {
+  addIsTyping,
+  addMessage,
+  removeIsTyping,
+  subscribeToRoom,
+} from '../firebase';
+import {
+  convertIsTypingToArray,
+  convertToArray,
+  createMessageGroups,
+  isTypingListToString,
+} from '../utils';
 import { Avatar } from './Avatar.styled';
 import { Button } from './Button.styled';
-import { ChatBubble } from './ChatBubble.styled';
+import ChatBubble from './ChatBubble';
 import Input from './Input';
 import { Link } from './Link.styled';
 import * as Styled from './Room.styled';
@@ -14,6 +24,7 @@ const Room = () => {
   const { roomCode } = useParams();
   const name = localStorage.getItem('username');
   const [text, setText] = useState('');
+  const [isTypingList, setIsTypingList] = useState([]);
   const [messageList, setMessageList] = useState([]);
   const messageListWrapperRef = useRef(null);
   const navigate = useNavigate();
@@ -25,14 +36,29 @@ const Room = () => {
   }, [name]);
 
   useEffect(() => {
+    // fixes issue where we scroll to bottom then the font increases height of page
     document.fonts.ready.then(scrollBottom);
   }, [messageList]);
 
   useEffect(() => {
-    subscribeToMessages(roomCode, (data) => {
-      setMessageList(data);
+    subscribeToRoom(roomCode, ({ messages, isTyping }) => {
+      setIsTypingList(convertIsTypingToArray(isTyping || []));
+      setMessageList(convertToArray(messages));
     });
   }, [roomCode]);
+
+  useEffect(() => {
+    const typer = isTypingList.find((item) => item.name === name);
+    const isAlreadyTyping = Boolean(typer);
+
+    if (text && !isAlreadyTyping) {
+      addIsTyping({ roomCode, name });
+    }
+
+    if (!text && isAlreadyTyping) {
+      removeIsTyping({ roomCode, id: typer.id });
+    }
+  }, [text]);
 
   const onTextChange = (e) => {
     setText(e.target.value);
@@ -64,6 +90,8 @@ const Room = () => {
   };
 
   const roomGroups = createMessageGroups(messageList);
+  const isTypingString = isTypingListToString(isTypingList, name);
+  console.log('isTypingString', isTypingString);
 
   return (
     <Styled.RoomWrapper>
@@ -94,9 +122,12 @@ const Room = () => {
             );
           })}
         </Styled.MessageList>
+        {isTypingString ? (
+          <Styled.IsTyping>{isTypingString} is typing...</Styled.IsTyping>
+        ) : null}
       </Styled.MessageListWrapper>
 
-      <form onSubmit={sendMessage}>
+      <form onSubmit={sendMessage} autocomplete="off">
         <Styled.InputStack space={spacing.l} horizontal>
           <Styled.TextInputWrapper>
             <Input id="text" onChange={onTextChange} value={text} />

@@ -25,10 +25,12 @@ const Lobby = () => {
 
   const onCreateRoom = (e) => {
     e.preventDefault();
+    const errorMessage = validateName(name);
     const newRoomCode = generateRoomCode();
-    const isValid = validateName();
 
-    if (isValid) {
+    if (errorMessage) {
+      setError(errorMessage);
+    } else {
       navigate(`/${newRoomCode}`);
     }
   };
@@ -47,7 +49,7 @@ const Lobby = () => {
   return (
     <Styled.Wrapper>
       <Styled.Panel>
-        <form>
+        <form autocomplete="off">
           <Stack space={spacing.l}>
             <Styled.Heading>ChitChatr</Styled.Heading>
 
